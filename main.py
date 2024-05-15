@@ -1,6 +1,7 @@
 import aiohttp
 import asyncio
 from bs4 import BeautifulSoup
+import connection
 
 async def fetch_url(session, url):
     async with session.get(url) as response:
