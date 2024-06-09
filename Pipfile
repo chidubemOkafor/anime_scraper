@@ -8,6 +8,7 @@ aiohttp = "*"
 beautifulsoup4 = "*"
 asyncio = "*"
 psycopg2-binary = "*"
+pymongo = {extras = ["srv"], version = "*"}
 
 [dev-packages]
 
