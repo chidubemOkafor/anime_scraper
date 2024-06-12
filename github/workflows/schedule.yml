@@ -10,4 +10,4 @@ jobs:
 
     steps:
       - name: Call update_collection
-        run: curl -X GET "https://your-vercel-deployment.vercel.app/api/update"
+        run: curl -X GET "https://anime-scraper-fyca.onrender.com"
