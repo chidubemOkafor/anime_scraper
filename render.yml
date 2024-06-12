@@ -1,0 +1,7 @@
+# render.yaml
+services:
+  - name: update-collection
+    type: web
+    env: python
+    buildCommand: pipenv install --deploy --ignore-pipfile
+    startCommand: python api/update.py
