@@ -5,9 +5,9 @@ on:
     - cron: '0 0 * * *'  # This will run every day at midnight UTC
 
 jobs:
-  call-vercel-endpoint:
+  call-update-collection:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Call Vercel endpoint
+      - name: Call update_collection
         run: curl -X GET "https://your-vercel-deployment.vercel.app/api/update"
