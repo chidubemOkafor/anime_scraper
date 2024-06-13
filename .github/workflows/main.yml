@@ -1,5 +1,3 @@
-# .github/workflows/update_anime_data.yml
-
 name: Update Anime Data
 
 on:
@@ -18,20 +16,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install pyenv
+      - name: Install pyenv and Python
         run: |
+          # Install pyenv
           curl https://pyenv.run | bash
-          export PATH="/root/.pyenv/bin:$PATH"
+          
+          # Add pyenv to PATH
+          export PATH="/home/runner/.pyenv/bin:$PATH"
           eval "$(pyenv init --path)"
 
-      - name: Install Python 3.12
-        run: pyenv install 3.12.0
+          # Install Python 3.12 using pyenv
+          pyenv install 3.12.0
 
-      - name: Set Python 3.12 as default
-        run: pyenv global 3.12.0
+          # Set Python 3.12 as global (optional)
+          pyenv global 3.12.0
 
       - name: Verify Python version
-        run: python --version
+        run: |
+          python --version
 
       - name: Install pipenv
         run: |
