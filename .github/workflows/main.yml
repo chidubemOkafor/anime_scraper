@@ -16,23 +16,34 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3 
+        uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+      - name: Install pyenv
+        run: |
+          curl https://pyenv.run | bash
+          export PATH="/root/.pyenv/bin:$PATH"
+          eval "$(pyenv init --path)"
 
-      - name: Install dependencies
+      - name: Install Python 3.12
+        run: pyenv install 3.12.0
+
+      - name: Set Python 3.12 as default
+        run: pyenv global 3.12.0
+
+      - name: Verify Python version
+        run: python --version
+
+      - name: Install pipenv
         run: |
           python -m pip install --upgrade pip
           pip install pipenv
+
+      - name: Install dependencies
+        run: |
           pipenv install --deploy --ignore-pipfile
 
       - name: Run update script
         env:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
-          echo "Starting update.py execution..."
           pipenv run python update.py
-
