@@ -33,4 +33,6 @@ jobs:
         env:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: |
+          echo "Starting update.py execution..."
           pipenv run python update.py
+
