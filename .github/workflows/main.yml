@@ -42,6 +42,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pipenv --rm  # Remove existing virtual environment
           pipenv install --deploy --ignore-pipfile
 
       - name: Run update script
