@@ -9,10 +9,8 @@ import os
 load_dotenv()
 # Define your MongoDB connection and database/collection
 client = MongoClient(f'mongodb+srv://okaforchidubem7:{os.getenv("PASSWORD")}@cluster0.coflu6v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-db = client['anime_database']
+db = client['test']
 collection = db['anime_collection']
-
-# Clear the collection before inserting new data
 
 
 async def fetch_url(session, url):
