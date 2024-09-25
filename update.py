@@ -47,7 +47,7 @@ async def scrape_anime_data(url):
             thumbnail = anime_url.find("img", id="anime-poster")["src"] if anime_url.find("img", id="anime-poster") else "N/A"
             show_type = anime_url.find_all("a", class_="information-link")
             status = anime_url.find_all("div", class_="information-content-wrapper")
-            main_status = status[3].find("div") if len(status) > 3 else None
+            main_status = status[3].find("div")
             alternative_name = anime_url.find("div", class_="alternative-name")
             anime_website_element = anime_url.find("a", class_="anime-link official-link")
             anime_website = anime_website_element["href"] if anime_website_element else "N/A"
@@ -66,27 +66,35 @@ async def scrape_anime_data(url):
             anime_dict["launch_date"] = date.strip() if date else "N/A"
             anime_dict["type"] = show_type[0].text if len(show_type) > 0 else "N/A"
             anime_dict["season"] = show_type[1].text if len(show_type) > 1 else "N/A"
+            anime_dict["status"] = main_status.text
             anime_dict["source"] = show_type[2].text if len(show_type) > 2 else "N/A"
             anime_dict["release_time(sub)"] = release_time_sub.text if release_time_sub else "N/A"
             anime_dict["streaming_sites"] = streaming_sites
             anime_dict["official_website"] = anime_website
 
             anime_list.append(anime_dict)
-            collection.insert_one(anime_dict)  # Insert each anime_dict into MongoDB
+            collection.insert_one(anime_dict)
 
     print("Scraping and insertion complete")
     return anime_list
+
+def delete_finished_anime():
+    result = collection.delete_many({"status": "Finished"})
+    print(f"Documents deleted with status 'Finished': {result.deleted_count}")
 
 def update_collection():
     result = collection.delete_many({})
     print(f"Documents deleted: {result.deleted_count}")
 
     current_year = datetime.now().year
+    next_year = current_year + 1
 
-    seasons = ["spring", "summer", "fall"]
+    seasons = ["spring", "summer", "fall", "winter"]
 
     for season in seasons:
-        result = asyncio.run(scrape_anime_data(f"https://animeschedule.net/seasons/{season}-{current_year}"))
+        result = asyncio.run(scrape_anime_data(f'https://animeschedule.net/seasons/{season}-{current_year if season != "winter" else next_year}'))
+
+    delete_finished_anime()
 
 update_collection()
 
