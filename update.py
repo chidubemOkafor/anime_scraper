@@ -1,15 +1,10 @@
 import aiohttp
 from bs4 import BeautifulSoup
-from pymongo import MongoClient
 import asyncio
 from datetime import datetime
-from dotenv import load_dotenv
-import os
+from connection import db
+from notification import email_notification
 
-load_dotenv()
-# Define your MongoDB connection and database/collection
-client = MongoClient(f'mongodb+srv://okaforchidubem7:{os.getenv("PASSWORD")}@cluster0.coflu6v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-db = client['test']
 collection = db['animecollections']
 
 
@@ -97,4 +92,5 @@ def update_collection():
     delete_finished_anime()
 
 update_collection()
+email_notification()
 
