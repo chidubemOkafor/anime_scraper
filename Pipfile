@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-dotenv= "*"
+python-dotenv = "*"
 aiohttp = "*"
 beautifulsoup4 = "*"
 asyncio = "*"
