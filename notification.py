@@ -66,6 +66,10 @@ def email_notification():
     filter_for_current_date(release_array)
 
     while True:
-        send_email()
-        time.sleep(60)
+        current_time = datetime.now()
+        if current_time.hour == 12 and current_time.minute == 0:
+            send_email()
+            time.sleep(60)
+        else:
+            False
         

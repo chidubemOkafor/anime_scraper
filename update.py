@@ -93,8 +93,11 @@ def update_collection():
 
 
 
-update_collection()
-email_notification()
+def main():
+    update_collection()
+    email_notification()
+
+main()
 
 
 
