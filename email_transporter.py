@@ -1,12 +1,17 @@
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import smtplib
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 def email_transporter(reciever: str, subject: str, body: str, type: str, anime_name: str):
     sender_email = "anickal167@gmail.com"
     reciever_email = reciever
-    password = "skgryteigqcagcxl"
+    password = os.getenv("EMAIL_PASSWORD")
 
     if type == "html":
         with open(body, 'r') as file:

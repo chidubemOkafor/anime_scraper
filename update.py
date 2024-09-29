@@ -91,6 +91,21 @@ def update_collection():
 
     delete_finished_anime()
 
-update_collection()
-email_notification()
+async def main():
+    while True:
+        current_time = datetime.now()
 
+        # Check if it's 12 PM to run update_collection
+        if current_time.hour == 12 and current_time.minute == 0:
+            update_collection()
+            # Sleep for 60 seconds to avoid multiple executions within the same minute
+            await asyncio.sleep(60)
+
+        # Run email_notification function
+        email_notification()
+
+        # Sleep for 1 second before checking again
+        await asyncio.sleep(1)
+
+if __name__ == "__main__":
+    asyncio.run(main())
