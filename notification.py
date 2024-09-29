@@ -27,9 +27,11 @@ def get_tracking_anime_detail():
                 "anime_name": anime
             }
             anime_detail = anime_collection.find_one({"name": anime})
-            
-            release_dict["release_time"] = anime_detail["release_time(sub)"]
-            release_array.append(release_dict)
+
+            if anime_detail:
+                print(anime_detail)
+                release_dict["release_time"] = anime_detail["release_time(sub)"]
+                release_array.append(release_dict)
 
 def filter_for_current_date(release_array):
     for anime in release_array:

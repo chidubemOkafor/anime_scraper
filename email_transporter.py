@@ -4,9 +4,7 @@ import smtplib
 import os
 from dotenv import load_dotenv
 
-
 load_dotenv()
-
 
 def email_transporter(reciever: str, subject: str, body: str, type: str, anime_name: str):
     sender_email = "anickal167@gmail.com"
