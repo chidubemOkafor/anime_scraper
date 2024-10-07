@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def email_transporter(reciever: str, subject: str, body: str, type: str, anime_name: str):
+def email_transporter(reciever: str, subject: str, body: str, type: str, anime_name: str | list):
     sender_email = "anickal167@gmail.com"
     reciever_email = reciever
     password = os.getenv("EMAIL_PASSWORD")
@@ -14,7 +14,16 @@ def email_transporter(reciever: str, subject: str, body: str, type: str, anime_n
     if type == "html":
         with open(body, 'r') as file:
             html_content = file.read()
-        html_content = html_content.format(anime_name=anime_name)
+        
+        anime_list_items = "\n".join(f"<li>name: {anime['anime_name']}  time: {anime['release_time']}</li>" for anime in anime_name)
+        if isinstance(anime_name, str):
+            anime_name_to_use = anime_name
+        else:
+            anime_name_to_use = anime_list_items
+
+        # Format the html_content
+        html_content = html_content.format(anime_list=anime_name_to_use)
+        print(html_content)
     else:
         html_content = body
 

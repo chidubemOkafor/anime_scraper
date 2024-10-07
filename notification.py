@@ -44,13 +44,13 @@ def get_tracking_anime_detail():
                 )
                 print(f"Anime '{anime}' removed and trackingAnimes updated.")
 
-
 def filter_for_current_date(release_array):
+    print("released array", release_array)
     for anime in release_array:
         if anime["release_time"] != 'N/A':
             launch_date = datetime.strptime(anime["release_time"], date_format)
 
-            if launch_date.month == current_date.month and launch_date.day == current_date.day:
+            if launch_date.month == current_date.month and launch_date.day != current_date.day:
 
                 new_dict = {
                     **anime,
@@ -60,28 +60,34 @@ def filter_for_current_date(release_array):
                 filtered_array.append(new_dict)
     print(json.dumps(filtered_array, indent=4))
 
-def send_email():
+def send_email(mode: str):
     current_time = datetime.now().strftime("%I:%M %p")
 
     print("listening...")
 
     for anime in filtered_array:
-        if anime["release_time"] <= current_time and anime["is_sent"] == False:
-            email_transporter(anime["email"],"Show Update","email_content.html", "html", anime["anime_name"])
+        if anime["release_time"] >= current_time and anime["is_sent"] == False:
+            email_transporter(
+                anime["email"],
+                "Show Update",
+                "email_content.html" if mode == "worker" else "email_cron_content.html", 
+                "html", 
+                anime["anime_name"] if mode == "worker" else filtered_array
+                )
             anime["is_sent"] = True
         
     print("listening...")
 
 
-def email_notification():
+def email_notification(mode: str):
     get_tracking_anime_detail()
     filter_for_current_date(release_array)
 
-    while True:
-        current_time = datetime.now()
-        if current_time.hour == 12 and current_time.minute == 0:
-            send_email()
+    if mode == "worker":
+        while True:
+            send_email("worker")
             time.sleep(60)
-        else:
-            False
-        
+    else:
+        print("job ran!")
+        send_email("job")
+

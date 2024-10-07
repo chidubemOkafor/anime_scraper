@@ -95,7 +95,7 @@ def update_collection():
 
 def main():
     update_collection()
-    email_notification()
+    email_notification("job")
 
 main()
 

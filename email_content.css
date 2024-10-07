@@ -1,0 +1,34 @@
+
+    .title {
+    color: #1a1a2e;
+    }
+    .body {
+    background: linear-gradient(
+        to bottom right,
+        #1a1a2e,
+        #16213e,
+        #0f3460,
+        #533c8b
+    );
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    }
+
+    .main_body {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    width: 50vw;
+    max-width: 600px; /* Added max-width for responsiveness */
+    padding: 20px; /* Increased padding for better spacing */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Center text for better readability */
+    }
