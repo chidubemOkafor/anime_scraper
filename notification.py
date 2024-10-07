@@ -20,18 +20,30 @@ def get_tracking_anime_detail():
     users = user_collection.find({})
 
     for user in users:
+        user_anime_array = user["trackingAnimes"]
+
         for anime in user["trackingAnimes"]:
+                        
             release_dict = {
                 "username": user["username"],
                 "email": user["email"],
                 "anime_name": anime
             }
+
             anime_detail = anime_collection.find_one({"name": anime})
 
             if anime_detail:
-                print(anime_detail)
                 release_dict["release_time"] = anime_detail["release_time(sub)"]
                 release_array.append(release_dict)
+            
+            else:
+                user_anime_array.remove(anime)
+                user_collection.update_one(
+                    {"_id": user["_id"]},
+                    {"$set": {"trackingAnimes": user_anime_array}}
+                )
+                print(f"Anime '{anime}' removed and trackingAnimes updated.")
+
 
 def filter_for_current_date(release_array):
     for anime in release_array:
